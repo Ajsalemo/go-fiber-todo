@@ -12,7 +12,8 @@ func main() {
 	api := app.Group("/api/todo")
 
 	app.Get("/", controllers.Index)
-	api.Get("/get", controllers.GetTodo)
+	api.Get("/get/id", controllers.GetTodo)
+	api.Get("/get/all", controllers.GetAllTodo)
 	api.Get("/create", controllers.CreateTodo)
 	api.Get("/delete", controllers.DeleteTodo)
 	api.Get("/update", controllers.UpdateTodo)

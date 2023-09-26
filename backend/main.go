@@ -15,8 +15,8 @@ func main() {
 	api.Get("/get/id", controllers.GetTodo)
 	api.Get("/get/all", controllers.GetAllTodo)
 	api.Get("/create", controllers.CreateTodo)
-	api.Get("/delete", controllers.DeleteTodo)
-	api.Get("/update", controllers.UpdateTodo)
+	api.Get("/delete/id", controllers.DeleteTodo)
+	api.Get("/update/id", controllers.UpdateTodo)
 
 	log.Fatal(app.Listen(":3000"))
 }

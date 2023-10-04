@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"go-fiber-todo-backend/controllers"
+	config "go-fiber-todo-backend/config"
 )
 
 func main() {
@@ -18,5 +19,10 @@ func main() {
 	api.Get("/delete/id", controllers.DeleteTodo)
 	api.Get("/update/id", controllers.UpdateTodo)
 
+	db, err := config.ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	print(db)
 	log.Fatal(app.Listen(":3000"))
 }

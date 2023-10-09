@@ -1,7 +1,7 @@
 package config
 
 type Task struct {
-	id        int
-	name      string
-	completed bool
+	Id        int
+	Name      string
+	Completed bool
 }

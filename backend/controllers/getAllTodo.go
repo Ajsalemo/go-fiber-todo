@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	config "go-fiber-todo-backend/config"
 	models "go-fiber-todo-backend/models"
 	"log"
@@ -18,6 +17,5 @@ func GetAllTodo(cxt *fiber.Ctx) error {
 	}
 
 	db.Find(&tasks)
-	fmt.Println(tasks)
-	return cxt.JSON(fiber.Map{"msg": "getalltodo"})
+	return cxt.JSON(fiber.Map{"data": &tasks})
 }

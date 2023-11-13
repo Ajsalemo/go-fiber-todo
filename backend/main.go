@@ -13,17 +13,17 @@ func main() {
 	api := app.Group("/api/todo")
 
 	app.Get("/", controllers.Index)
-	api.Get("/get/id", controllers.GetTodo)
+	api.Get("/get/:id", controllers.GetTodo)
 	api.Get("/get/all", controllers.GetAllTodo)
 	api.Get("/create", controllers.CreateTodo)
 	api.Get("/delete/id", controllers.DeleteTodo)
 	api.Get("/update/id", controllers.UpdateTodo)
 	app.All("*", controllers.Index)
 
-	db, err := config.ConnectDB()
+	_, err := config.ConnectDB()
 	if err != nil {
 		log.Fatal(err)
 	}
-	print(db)
+
 	log.Fatal(app.Listen(":3000"))
 }

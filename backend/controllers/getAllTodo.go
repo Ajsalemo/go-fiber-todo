@@ -17,5 +17,7 @@ func GetAllTodo(cxt *fiber.Ctx) error {
 	}
 
 	db.Find(&tasks)
+	// No tasks found is returned as an empty array
+	// Let the client-side handle displaying of no tasks, if so
 	return cxt.JSON(fiber.Map{"data": &tasks})
 }

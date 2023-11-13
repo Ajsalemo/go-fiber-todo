@@ -29,11 +29,9 @@ func GetTodo(cxt *fiber.Ctx) error {
 			return cxt.JSON(fiber.Map{"err": err})
 		}
 
-		res := db.Find(&tasks, parsedId)
-		// If no tasks are found, return it to the user
-		if res.RowsAffected <= 0 {
-			return cxt.JSON(fiber.Map{"msg": "No tasks found"})
-		}
+		db.Find(&tasks, parsedId)
+		// No tasks found is returned as an empty array
+		// Let the client-side handle displaying of no tasks, if so
 		return cxt.JSON(fiber.Map{"msg": &tasks})
 	}
 }

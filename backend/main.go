@@ -25,9 +25,10 @@ func main() {
 	api.Get("/get", controllers.GetAllTodo)
 	api.Get("/get/:id", controllers.GetTodo)
 	api.Get("/create", controllers.CreateTodo)
-	api.Get("/delete/id", controllers.DeleteTodo)
+	api.Get("/delete/:id", controllers.DeleteTodo)
 	api.Get("/update/id", controllers.UpdateTodo)
 	app.All("*", controllers.Index)
 
 	app.Listen(":3000")
+
 }

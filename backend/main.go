@@ -1,11 +1,10 @@
 package main
 
 import (
-	"log"
-
-	"github.com/gofiber/fiber/v2"
 	config "go-fiber-todo-backend/config"
 	"go-fiber-todo-backend/controllers"
+
+	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 )
 
@@ -19,7 +18,7 @@ func main() {
 
 	_, err := config.ConnectDB()
 	if err != nil {
-		log.Fatal(err)
+		zap.L().Fatal(err.Error())
 	}
 
 	app.Get("/", controllers.Index)

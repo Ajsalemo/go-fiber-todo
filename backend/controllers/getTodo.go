@@ -36,6 +36,7 @@ func GetTodo(cxt *fiber.Ctx) error {
 		// For now, marshal the return tasks struct into JSON and parse into a sring
 		out, err := json.Marshal(&tasks)
 		zap.L().Info(string(out))
+
 		// No tasks found is returned as an empty array
 		// Let the client-side handle displaying of no tasks, if so
 		return cxt.JSON(fiber.Map{"msg": &tasks})

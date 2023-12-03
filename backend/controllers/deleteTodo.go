@@ -29,14 +29,25 @@ func DeleteTodo(cxt *fiber.Ctx) error {
 			zap.L().Error(err.Error())
 			return cxt.JSON(fiber.Map{"err": err})
 		}
-
+		// Try to find the task before attempting to delete it
 		db.Find(&tasks, parsedId)
-
-		db.Delete(&tasks, parsedId)
-		// No tasks found is returned as an empty array
-		// Let the client-side handle displaying of no tasks, if so
-		zap.L().Info("Deleted task with id: " + id)
-		// Send a HTTP 204 back since a succesful delete returns a null body
-		return cxt.SendStatus(204)
+		if len(tasks) > 0 {
+			zap.L().Info("Found task with id: " + id + " to be deleted")
+			err := db.Delete(&tasks, parsedId)
+			// Log out the error and return a 500 if the task can't be deleted
+			if err != nil {
+				zap.L().Error(err.Error.Error())
+				return cxt.SendStatus(500)
+			}
+			zap.L().Info("Deleted task with id: " + id)
+			// Send a HTTP 204 back since a succesful delete returns a null body
+			return cxt.SendStatus(204)
+		} else {
+			// No tasks found is returned as a 404 back to the client
+			// Let the client-side handle displaying of no tasks, if so
+			zap.L().Info("No task found with id: " + id)
+			// Send a HTTP 404 back since nothing was found with this id
+			return cxt.SendStatus(404)
+		}
 	}
 }

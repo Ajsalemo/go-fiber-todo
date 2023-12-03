@@ -20,6 +20,10 @@ func GetAllTodo(cxt *fiber.Ctx) error {
 	db.Find(&tasks)
 	// For now, marshal the return tasks struct into JSON and parse into a sring
 	out, err := json.Marshal(&tasks)
+	if err != nil {
+		zap.L().Error(err.Error())
+	}
+
 	zap.L().Info(string(out))
 	// No tasks found is returned as an empty array
 	// Let the client-side handle displaying of no tasks, if so

@@ -1,7 +1,7 @@
 package config
 
 type Task struct {
-	Id        int
-	Name      string
-	Completed bool
+	Id        int    `json:"id"`
+	Name      string `json:"name"`
+	Completed bool   `json:"completed"`
 }

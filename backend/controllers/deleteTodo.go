@@ -27,7 +27,7 @@ func DeleteTodo(cxt *fiber.Ctx) error {
 		// If there is an issue with Int conversion with the request param, return it to the client for potential error handling
 		if err != nil {
 			zap.L().Error(err.Error())
-			return cxt.JSON(fiber.Map{"err": err})
+			return cxt.Status(500).JSON(fiber.Map{"err": err.Error()})
 		}
 		// Try to find the task before attempting to delete it
 		db.Find(&tasks, parsedId)

@@ -26,7 +26,7 @@ func main() {
 	api.Get("/get/:id", controllers.GetTodo)
 	api.Post("/create", controllers.CreateTodo)
 	api.Get("/delete/:id", controllers.DeleteTodo)
-	api.Get("/update/id", controllers.UpdateTodo)
+	api.Put("/update/:id", controllers.UpdateTodo)
 	app.All("*", controllers.Index)
 
 	app.Listen(":3000")

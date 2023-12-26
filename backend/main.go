@@ -3,6 +3,9 @@ package main
 import (
 	config "go-fiber-todo-backend/config"
 	"go-fiber-todo-backend/controllers"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
@@ -28,7 +31,30 @@ func main() {
 	api.Get("/delete/:id", controllers.DeleteTodo)
 	api.Put("/update/:id", controllers.UpdateTodo)
 	app.All("*", controllers.Index)
+	// Notify the application of the below signals to be handled on shutdown
+	s := make(chan os.Signal, 1)
+	signal.Notify(s,
+		syscall.SIGINT,
+		syscall.SIGTERM,
+		syscall.SIGQUIT)
+	// Goroutine to clean up prior to shutting down
+	go func() {
+		sig := <-s
+		switch sig {
+		case os.Interrupt:
+			zap.L().Warn("CTRL+C / os.Interrupt recieved, shutting down connections and the application..")
+			app.Shutdown()
+		case syscall.SIGTERM:
+			zap.L().Warn("SIGTERM recieved.., shutting down connections and the application..")
+			app.Shutdown()
+		case syscall.SIGQUIT:
+			zap.L().Warn("SIGQUIT recieved.., shutting down connections and the application..")
+			app.Shutdown()
+		case syscall.SIGINT:
+			zap.L().Warn("SIGINT recieved.., shutting down connections and the application..")
+			app.Shutdown()
+		}
+	}()
 
 	app.Listen(":3000")
-
 }

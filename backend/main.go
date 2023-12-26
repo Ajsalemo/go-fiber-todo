@@ -41,6 +41,7 @@ func main() {
 	go func() {
 		sig := <-s
 		switch sig {
+		// Gorm should automatically handle connection closures. Close() is no longer available as of 1.20
 		case os.Interrupt:
 			zap.L().Warn("CTRL+C / os.Interrupt recieved, shutting down connections and the application..")
 			app.Shutdown()

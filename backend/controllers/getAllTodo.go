@@ -13,9 +13,8 @@ func GetAllTodo(cxt *fiber.Ctx) error {
 	var tasks []models.Task
 
 	db, err := config.ConnectDB()
-	if err != nil {
-		zap.L().Fatal(err.Error())
-	}
+	// This helper function implements exponential retry backoffs for connection failure attempts to the database
+	config.ConnectionRetry(err)
 
 	db.Find(&tasks)
 	// For now, marshal the return tasks struct into JSON and parse into a sring

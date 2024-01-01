@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
@@ -17,32 +16,9 @@ func init() {
 }
 
 func main() {
-	retryCount := 0
-	var backoffSchedule = []time.Duration{
-		1 * time.Second,
-		3 * time.Second,
-		10 * time.Second,
-	}
-
-	// Create a loop and loop over the incremental retry time
-	for _, backoff := range backoffSchedule {
-		_, err := config.ConnectDB()
-
-		if err == nil {
-			// Reset the retry count
-			retryCount = 0
-			break
-		}
-		// Increment the retry count
-		retryCount++
-		zap.L().Error(err.Error())
-		zap.L().Warn("Retrying in: " + backoff.String())
-		time.Sleep(backoff)
-		// If retry count is greater than 2 and err is not nil, return the error - Fatal() implicitly calls os.Exit(1)
-		if retryCount > 2 && err != nil {
-			zap.L().Fatal(err.Error())
-		}
-	}
+	_, err := config.ConnectDB()
+	// This helper function implements exponential retry backoffs for connection failure attempts to the database
+	config.ConnectionRetry(err)
 
 	app := fiber.New()
 	api := app.Group("/api/todo")

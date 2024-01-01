@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	models "go-fiber-todo-backend/models"
 	config "go-fiber-todo-backend/config"
+	models "go-fiber-todo-backend/models"
 
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
@@ -13,9 +13,8 @@ func CreateTodo(cxt *fiber.Ctx) error {
 	var tasks models.Task
 
 	db, err := config.ConnectDB()
-	if err != nil {
-		zap.L().Fatal(err.Error())
-	}
+	// This helper function implements exponential retry backoffs for connection failure attempts to the database
+	config.ConnectionRetry(err)
 
 	body := cxt.Body()
 	// Return an error if the request body is empty

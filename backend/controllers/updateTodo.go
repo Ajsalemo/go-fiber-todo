@@ -16,9 +16,8 @@ func UpdateTodo(cxt *fiber.Ctx) error {
 	var tasks models.Task
 
 	db, err := config.ConnectDB()
-	if err != nil {
-		zap.L().Fatal(err.Error())
-	}
+	// This helper function implements exponential retry backoffs for connection failure attempts to the database
+	config.ConnectionRetry(err)
 
 	// If the request param is empty, return it to the client for potential error handling
 	if id == "" {

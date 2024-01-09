@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouteContainer } from './components/routecontainer/routeContainer';
 import reportWebVitals from './reportWebVitals';
+// Import tailwinds output.css file
+import "./output.css"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

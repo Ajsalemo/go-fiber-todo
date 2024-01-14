@@ -1,7 +1,7 @@
 import { Navbar } from "../navbar/navbar";
 
 export const Dashboard = () => (
-    <div> 
+    <div className="h-screen bg-cyan-500"> 
         <Navbar />
     </div>
 )

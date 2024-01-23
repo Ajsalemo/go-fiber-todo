@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import checkboxIcon from "../../assets/images/checkbox.png"
 
 export const Index = () => (
-    <div className="h-screen bg-cyan-500 flex justify-center w-screen items-center">
+    <div className="bg-cyan-500 flex justify-center w-screen items-center">
         <div className="w-1/2 h-1/4 border-solid border-black rounded shadow-xl bg-cyan-700 justify-center items-center flex flex-col font-sans">
             <div><img src={checkboxIcon} alt="checkbox icon" /></div>
             <h1 className="text-white text-6xl my-6">Todo</h1>

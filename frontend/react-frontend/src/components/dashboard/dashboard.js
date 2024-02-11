@@ -9,10 +9,9 @@ export const Dashboard = () => (
         <div className="h-full flex">
             <div className="w-full flex">
                 <Sidebar />
-                <div className="w-full">
+                <div className="w-full mt-20">
                     <Task />
                     <Task />
-
                 </div>
             </div>
         </div>

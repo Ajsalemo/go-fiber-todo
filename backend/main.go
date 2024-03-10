@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"go.uber.org/zap"
 )
 
@@ -22,6 +23,11 @@ func main() {
 
 	app := fiber.New()
 	api := app.Group("/api/todo")
+	// Set up CORS to allow the frontends to call this API
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowMethods: "GET, POST, DELETE, PUT, OPTIONS",
+	}))
 
 	app.Get("/", controllers.Index)
 	api.Get("/get", controllers.GetAllTodo)

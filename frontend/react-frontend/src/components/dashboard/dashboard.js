@@ -8,20 +8,22 @@ import axios from "axios"
 import { Error } from "../error/error";
 
 export const Dashboard = () => {
-    const [isError, setIsError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [isError, setIsError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+    const [tasks, setTasks] = useState([])
 
     useEffect(() => {
         const getAllTodosOnLoad = async () => {
             try {
                 setIsError(false)
-                const { data } = await axios.get("http://localhost:3000/api/todo/get")
-                console.log(data);
+                const { data: { data } } = await axios.get("http://localhost:3000/api/todo/get")
+                console.log(data)
+                setTasks(data)
             } catch (error) {
-                console.error(error);
-                console.log(error.message);
+                console.error(error)
+                console.log(error.message)
                 setIsError(true)
-                setErrorMessage(error.message);
+                setErrorMessage(error.message)
             }
         }
 
@@ -39,8 +41,12 @@ export const Dashboard = () => {
                             <Error error={errorMessage} />
                         ) : (
                             <>
-                                <Task />
-                                <Task />
+                                {/* Check if the array returned for /api/todo/get is not zero (0) - since this would indicate no tasks were returned */}
+                                {tasks && tasks.length > 0 ? (
+                                    tasks.map((task, i) => (
+                                        <Task taskName={task.name} key={i} />
+                                    ))
+                                )  : "n"}
                             </>
                         )}
                     </div>

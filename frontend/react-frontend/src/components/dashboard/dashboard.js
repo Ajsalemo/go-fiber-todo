@@ -3,9 +3,9 @@ import { Footer } from "../footer/footer";
 import { Navbar } from "../navbar/navbar";
 import { Sidebar } from "../sidebar/sidebar";
 import { Task } from "../task/task";
-
-import axios from "axios"
 import { Error } from "../error/error";
+
+import { axiosInstance } from "../../utils/utils";
 
 export const Dashboard = () => {
     const [isError, setIsError] = useState(false)
@@ -16,7 +16,7 @@ export const Dashboard = () => {
         const getAllTodosOnLoad = async () => {
             try {
                 setIsError(false)
-                const { data: { data } } = await axios.get("http://localhost:3000/api/todo/get")
+                const { data: { data } } = await axiosInstance.get("http://localhost:3000/api/todo/get")
                 console.log(data)
                 setTasks(data)
             } catch (error) {

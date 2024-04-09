@@ -49,7 +49,7 @@ export const Dashboard = () => {
                                 {/* Check if the array returned for /api/todo/get is not zero (0) - since this would indicate no tasks were returned */}
                                 {tasks && tasks.length > 0 && !isLoading ? (
                                     tasks.map((task, i) => (
-                                        <Task taskName={task.name} completed={task.completed} loading={isLoading} key={i} />
+                                        <Task taskName={task.name} id={i} completed={task.completed} loading={isLoading} key={i} />
                                     ))
                                 )  : <Loading />}
                             </>

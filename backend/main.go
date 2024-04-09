@@ -33,7 +33,7 @@ func main() {
 	api.Get("/get", controllers.GetAllTodo)
 	api.Get("/get/:id", controllers.GetTodo)
 	api.Post("/create", controllers.CreateTodo)
-	api.Get("/delete/:id", controllers.DeleteTodo)
+	api.Delete("/delete/:id", controllers.DeleteTodo)
 	api.Put("/update/:id", controllers.UpdateTodo)
 	app.All("*", controllers.Index)
 	// Notify the application of the below signals to be handled on shutdown

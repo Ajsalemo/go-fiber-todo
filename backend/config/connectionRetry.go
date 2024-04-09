@@ -20,9 +20,10 @@ func ConnectionRetry(err error) {
 		if err == nil {
 			// Reset the retry count
 			retryCount = 0
+			zap.L().Info("Successfully connected to PostgreSQL..")
 			break
 			// If the error cants a connection failure, retry the connection
-		} else if err != nil && strings.Contains(err.Error(), "failed to connect") {
+		} else if err.Error() != "" && strings.Contains(err.Error(), "failed to connect") {
 			// Increment the retry count
 			retryCount++
 			zap.L().Error(err.Error())
@@ -30,7 +31,7 @@ func ConnectionRetry(err error) {
 			zap.L().Warn("Retrying in: " + backoff.String())
 			time.Sleep(backoff)
 			// If retry count is greater than 2 and err is not nil, return the error - Fatal() implicitly calls os.Exit(1)
-			if retryCount > 2 && err != nil {
+			if retryCount > 2 && err.Error() != "" {
 				zap.L().Fatal(err.Error())
 			}
 		}

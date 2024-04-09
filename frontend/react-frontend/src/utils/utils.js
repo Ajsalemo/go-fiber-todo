@@ -22,4 +22,5 @@ export const axiosInstance = axios.create({
     // Create an agent for both HTTP and HTTPS
     httpAgent: keepAliveAgent,
     httpsAgent: httpsKeepAliveAgent,
+    timeout: 30000
 })

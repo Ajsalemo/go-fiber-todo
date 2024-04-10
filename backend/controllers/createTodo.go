@@ -27,6 +27,7 @@ func CreateTodo(cxt *fiber.Ctx) error {
 	err2 := json.Unmarshal(body, &tasks)
 	if err2 != nil {
 		zap.L().Error(err.Error())
+		return cxt.Status(500).JSON(fiber.Map{"err": err.Error()})
 	}
 	// Create a new task
 	db.Create(&tasks)

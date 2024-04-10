@@ -36,7 +36,7 @@ func DeleteTodo(cxt *fiber.Ctx) error {
 			// Log out the error and return a 500 if the task can't be deleted
 			if err.Error != nil {
 				zap.L().Error(db.Error.Error())
-				return cxt.SendStatus(500)
+				return cxt.Status(500).JSON(fiber.Map{"err": db.Error.Error()})
 			}
 			zap.L().Info("Deleted task with id: " + id)
 			// Send a HTTP 204 back since a succesful delete returns a null body

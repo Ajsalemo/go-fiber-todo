@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	config "go-fiber-todo-backend/config"
 	models "go-fiber-todo-backend/models"
 	"strconv"
@@ -42,11 +41,11 @@ func UpdateTodo(cxt *fiber.Ctx) error {
 		// Return an error if the JSON is invalid
 		err2 := json.Unmarshal(body, &tasks)
 		if err2 != nil {
-			zap.L().Error(err.Error())
+			zap.L().Error(err2.Error())
 		}
 		// Update a task
 		rows := db.Model(&tasks).Where("id = ?", parsedId).Updates(&tasks)
-		fmt.Println(rows.RowsAffected)
+
 		if rows.RowsAffected == 0 {
 			zap.L().Info("Task with id: " + id + " was not found")
 			// Send a HTTP 404 back since nothing was found with this id

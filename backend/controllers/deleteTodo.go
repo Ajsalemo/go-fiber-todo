@@ -29,13 +29,13 @@ func DeleteTodo(cxt *fiber.Ctx) error {
 			return cxt.Status(500).JSON(fiber.Map{"err": err.Error()})
 		}
 		// Try to find the task before attempting to delete it
-		db.Find(&tasks, parsedId)
+		db.First(&tasks, parsedId)
 		if len(tasks) > 0 {
 			zap.L().Info("Found task with id: " + id + " to be deleted")
-			err := db.Delete(&tasks, parsedId)
+			err := db.Delete(&tasks)
 			// Log out the error and return a 500 if the task can't be deleted
-			if err != nil {
-				zap.L().Error(err.Error.Error())
+			if err.Error != nil {
+				zap.L().Error(db.Error.Error())
 				return cxt.SendStatus(500)
 			}
 			zap.L().Info("Deleted task with id: " + id)

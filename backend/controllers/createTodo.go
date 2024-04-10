@@ -30,6 +30,7 @@ func CreateTodo(cxt *fiber.Ctx) error {
 	}
 	// Create a new task
 	db.Create(&tasks)
+
 	zap.L().Info("Created a new task: " + string(body))
-	return cxt.JSON(fiber.Map{"msg": "createtodo"})
+	return cxt.JSON(fiber.Map{"msg": "Created a new task: " + string(body)})
 }

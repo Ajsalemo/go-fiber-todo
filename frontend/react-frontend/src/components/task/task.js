@@ -4,7 +4,7 @@ import { faCircleCheck } from '@fortawesome/free-regular-svg-icons'
 import { faCircleCheck as faSolidCircleCheck, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { axiosInstance } from "../../utils/utils";
 
-export const Task = ({ taskName, id, completed, loading }) => {
+export const Task = ({ taskName, id, completed, loading, getAllTodosOnLoad }) => {
     const [isError, setIsError] = useState(false)
     const [showDeleteError, setShowDeleteError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -15,8 +15,12 @@ export const Task = ({ taskName, id, completed, loading }) => {
             console.log(`id:  ${id}`);
             setIsError(false)
             setShowDeleteError(false)
-            const { data: { data } } = await axiosInstance.delete(`http://localhost:3000/api/todo/delete/${id}`)
+            const data = await axiosInstance.delete(`http://localhost:3000/api/todo/delete/${id}`)
             console.log(data)
+            // Reload data after an operation
+            if (data.status === 204) {
+                getAllTodosOnLoad()
+            }
             setIsLoading(true)
         } catch (error) {
             console.error(error)

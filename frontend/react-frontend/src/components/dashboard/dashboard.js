@@ -14,24 +14,24 @@ export const Dashboard = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [tasks, setTasks] = useState([])
 
-    useEffect(() => {
-        const getAllTodosOnLoad = async () => {
-            setIsLoading(true)
-            try {
-                setIsError(false)
-                const { data: { data } } = await axiosInstance.get("http://localhost:3000/api/todo/get")
-                console.log(data)
-                setTasks(data)
-                setIsLoading(false)
-            } catch (error) {
-                console.error(error)
-                console.log(error.message)
-                setIsLoading(false)
-                setIsError(true)
-                setErrorMessage(error.message)
-            }
+    const getAllTodosOnLoad = async () => {
+        setIsLoading(true)
+        try {
+            setIsError(false)
+            const { data: { data } } = await axiosInstance.get("http://localhost:3000/api/todo/get")
+            console.log(data)
+            setTasks(data)
+            setIsLoading(false)
+        } catch (error) {
+            console.error(error)
+            console.log(error.message)
+            setIsLoading(false)
+            setIsError(true)
+            setErrorMessage(error.message)
         }
+    }
 
+    useEffect(() => {
         getAllTodosOnLoad()
     }, [])
 
@@ -47,11 +47,15 @@ export const Dashboard = () => {
                         ) : (
                             <>
                                 {/* Check if the array returned for /api/todo/get is not zero (0) - since this would indicate no tasks were returned */}
-                                {tasks && tasks.length > 0 && !isLoading ? (
+                                {tasks && !isLoading ? (
                                     tasks.map((task, i) => (
-                                        <Task taskName={task.name} id={i} completed={task.completed} loading={isLoading} key={i} />
+                                        <Task taskName={task.name} id={task.id} completed={task.completed} loading={isLoading} key={i} getAllTodosOnLoad={getAllTodosOnLoad} />
                                     ))
                                 )  : <Loading />}
+
+                                {tasks && tasks.length === 0 && (
+                                    <div>No tasks</div>
+                                )}
                             </>
                         )}
                     </div>

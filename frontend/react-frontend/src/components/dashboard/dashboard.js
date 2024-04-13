@@ -7,6 +7,7 @@ import { Task } from "../task/task";
 
 import { axiosInstance } from "../../utils/utils";
 import { Loading } from "../loading/loading";
+import { TaskForm } from "../taskForm/taskForm";
 
 export const Dashboard = () => {
     const [isError, setIsError] = useState(false)
@@ -42,6 +43,7 @@ export const Dashboard = () => {
                 <div className="w-full flex">
                     <Sidebar />
                     <div className="w-full mt-20">
+                        <TaskForm />
                         {isError ? (
                             <Error error={errorMessage} />
                         ) : (
